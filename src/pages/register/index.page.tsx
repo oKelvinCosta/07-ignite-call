@@ -11,6 +11,7 @@ import { api } from '../../lib/axios'
 
 import { Container, Form, FormError, Header } from './styles'
 
+
 const registerFormSchema = z.object({
   username: z
     .string()
@@ -25,6 +26,8 @@ const registerFormSchema = z.object({
 })
 
 type RegisterFormData = z.infer<typeof registerFormSchema>
+
+
 
 export default function Register() {
   const {
