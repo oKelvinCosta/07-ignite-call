@@ -1,20 +1,24 @@
-import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
-import { signIn, useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { ArrowRight, Check } from 'phosphor-react'
+import { Button, Heading, MultiStep, Text } from "@ignite-ui/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { ArrowRight, Check } from "phosphor-react";
 // import { api } from "../../../lib/axios"
-import { Container, Header } from '../styles'
-import { AuthError, ConnectBox, ConnectItem } from './styles'
+import { Container, Header } from "../styles";
+import { AuthError, ConnectBox, ConnectItem } from "./styles";
 
 export default function Register() {
-  const session = useSession()
-  const router = useRouter()
+  const session = useSession();
+  const router = useRouter();
 
   const hasAuthError = !!router.query.error;
-  const isSignedId = session.status === 'authenticated';
+  const isSignedId = session.status === "authenticated";
 
   async function handleConnectCalendar() {
-    await signIn('google')
+    await signIn("google");
+  }
+
+  async function handleNavigateToNextStep() {
+    await router.push("/register/time-intervals");
   }
 
   return (
@@ -56,11 +60,15 @@ export default function Register() {
           </AuthError>
         )}
 
-        <Button type="submit" disabled={!isSignedId}>
+        <Button
+          type="submit"
+          disabled={!isSignedId}
+          onClick={handleNavigateToNextStep}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
       </ConnectBox>
     </Container>
-  )
+  );
 }

@@ -2,7 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { unstable_getServerSession } from 'next-auth'
 import { z } from 'zod'
 import { prisma } from '../../../lib/prisma'
-import { buildNextAuthOptions } from '../auth/[...nextAuth].api'
+import { buildNextAuthOptions } from '../auth/[...nextauth].api'
+
+// Is not necessary get the ID by URL, because the user is authenticated and the ID is inside cookie
 
 const timeIntervalsBodySchema = z.object({
   intervals: z.array(
@@ -14,6 +16,7 @@ const timeIntervalsBodySchema = z.object({
   ),
 })
 
+// To register the intervals that the user have available
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -34,6 +37,7 @@ export default async function handler(
 
   const { intervals } = timeIntervalsBodySchema.parse(req.body)
 
+  // Instead FOR, Promise would create all the calls in parallel
   await Promise.all(
     intervals.map((interval) => {
       return prisma.userTimeInterval.create({
@@ -47,5 +51,6 @@ export default async function handler(
     }),
   )
 
+  // When use Create and Update, is better not return data
   return res.status(201).end()
 }

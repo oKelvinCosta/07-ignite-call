@@ -54,6 +54,7 @@ Aplicação de agendamento de chamadas desenvolvida durante o Ignite da Rocketse
    ```
 
 5. **Execute as migrações**
+   Quando alterar algo no schema.prisma usar:
    ```bash
    npx prisma migrate dev --name init
    ```
